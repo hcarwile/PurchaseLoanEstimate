@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Loan Estimate – Loan Pronto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --paper:      #FDFAF6;
+    --paper-mid:  #F5F0E8;
+    --paper-deep: #EDE6D8;
+    --rule:       #DDD7CC;
+    --ink:        #2C3340;
+    --ink-mid:    #5C6470;
+    --ink-light:  #9AA0AA;
+    --terra:      #B5622A;
+    --terra-pale: #FBF0E8;
+    --sage:       #3D7A5E;
+    --sage-pale:  #EBF5EF;
+    --sage-light: #C8E6D5;
+    --amber:      #9B6B1A;
+    --amber-pale: #FDF4E0;
+    --amber-light:#F0D899;
+      /* Global horizontal rails (keep every section aligned) */
+    --page-rail: 32px;
+    --card-pad: 24px;
+  }
+  html { font-size: 13px; }
+  body {
+    font-variant-numeric: tabular-nums;
+    font-family: 'Mulish', sans-serif;
+    background: #EDE8DF;
+    color: var(--ink);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    padding: 24px 20px;
+  }
+  .print-bar { max-width: 720px; margin: 0 auto 10px; display: flex; justify-content: flex-end; }
+  .print-btn { background: var(--ink); color: var(--paper); border: none; padding: 8px 20px; font-family: 'Mulish', sans-serif; font-size: 10.5px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; cursor: pointer; border-radius: 4px; opacity: 0.75; transition: opacity 0.2s; }
+  .print-btn:hover { opacity: 1; }
+
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--paper);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 32px rgba(44,51,64,0.13), 0 1px 4px rgba(44,51,64,0.07);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: var(--paper);
+    padding: 8px var(--page-rail) 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--rule);
+    flex-shrink: 0;
+  }
+  .brand { display: flex; align-items: center; }
+  .brand-logo {
+    height: 26px;
+    width: auto;
+    display: block;
+  }
+  .brand-mark { width: 34px; height: 34px; background: var(--terra); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: 'Lora', serif; font-size: 14px; font-weight: 600; color: #fff; letter-spacing: -0.02em; }
+  .brand-name { font-size: 11.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-mid); }
+  .header-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+  .hr-for { font-size: 9px; letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 1px; line-height: 1.1; }
+  .ei-name { font-family: 'Lora', serif; font-size: 16px; font-weight: 500; color: var(--ink); width: 220px; text-align: right; direction: ltr; }
+  .hr-date {
+  font-size: 9.5px;
+  color: var(--ink-light);
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 220px;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+  /* ── SUMMARY HERO ── */
+/* Mechanical alignment lock for the three hero cards */
+:root{
+  --hero-pad-x: var(--card-pad); /* base inner padding; edges are overridden to match rails */
+  --hero-pad-top: 22px;
+  --hero-pad-bot: 20px;
+  --hero-number-row: 56px;          /* fixed height so dividers align */
+  --hero-divider-thickness: 1px;
+  --hero-gap-after-eyebrow: 6px;
+  --hero-gap-after-number: 8px;
+}
+  .summary-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 2px solid var(--rule);
+    flex-shrink: 0;
+  }
+  /* All cards: identical padding */
+  
+.sh-card {
+  padding: var(--hero-pad-top) var(--hero-pad-x) var(--hero-pad-bot);
+  position: relative;
+
+  /* Identical internal grid across all three cards */
+  display: grid;
+  grid-template-rows:
+    auto                          /* eyebrow */
+    var(--hero-number-row)        /* primary number row (locked) */
+    var(--hero-divider-thickness) /* divider (locked) */
+    1fr;                          /* breakdown */
+  row-gap: 0;
+}
+  /* Lock the OUTER hero text edges to the same invisible rails as the rest of Page 1 */
+  .sh-card.rate-card{ padding-left: 0; }
+  .sh-card.cash-card{ padding-right: 0; }
+  
+  /* ── Hero rail alignment polish (Page 1) ── */
+  /* Left hero: ensure everything keys off the left rail */
+  .sh-card.rate-card { padding-left: 0; }
+
+  /* Right hero: key the RIGHT edge of headings/numbers to the right rail */
+  .sh-card.cash-card { padding-right: 0; }
+  .sh-card.cash-card .sh-eyebrow,
+  .sh-card.cash-card .sh-number { justify-self: end; text-align: right; }
+  .sh-card.cash-card .cash-breakdown { width: 100%; justify-self: stretch; }
+  .sh-card.cash-card .cb-row { width: 100%; }
+  .sh-card.cash-card .cb-row span:last-child { text-align: right; }
+
+.sh-card + .sh-card { border-left: 1px solid var(--rule); }
+  .sh-card.rate-card { background: var(--amber-pale); }
+  .sh-card.pay-card  { background: var(--paper-mid); }
+  .sh-card.cash-card { background: var(--sage-pale); }
+
+  /* Eyebrow — identical font-size, tracking, weight across all three panels */
+  .sh-eyebrow { font-size: 8.5px; font-weight: 700; letter-spacing: 0.13em; text-transform: uppercase; margin-bottom: var(--hero-gap-after-eyebrow); }
+  .sh-eyebrow.rate { color: var(--amber); }
+  .sh-eyebrow.pay  { color: var(--ink-light); }
+  .sh-eyebrow.cash { color: var(--sage); }
+
+  /* Primary number — identical scale and margin-bottom across all three panels */
+  .sh-number { font-family: 'Lora', serif; font-weight: 500; letter-spacing: -0.03em; line-height: 1; margin-bottom: 0;
+    align-self: end;
+    display: inline-flex;
+    display: inline-flex; align-items: flex-end; gap: 0; }
+  .sh-number.rate { font-size: 48px; color: var(--amber); }
+  .sh-number.pay  { font-size: 48px; color: var(--ink); }
+  .sh-number.cash { font-size: 48px; color: var(--sage); }
+
+  /* % — secondary typography: smaller, lighter, recedes behind the number */
+  .rate-pct { font-family: 'Lora', serif; font-size: 24px; font-weight: 400; color: var(--amber); opacity: 0.7; line-height: 1; margin-left: 3px;  display: inline-block; vertical-align: baseline; position: relative; top: 0;  align-self: flex-end; }
+
+
+/* Divider row — aligned identically in all three panels */
+.sh-number + .sh-divider { margin-top: var(--hero-gap-after-number); }
+.sh-divider{
+  width: 100%;
+  height: var(--hero-divider-thickness);
+  justify-self: stretch;
+  align-self: stretch;
+  margin: 0 0 32px 0;
+}
+.sh-divider.rate{ background: var(--amber-light); }
+.sh-divider.pay { background: var(--rule); }
+.sh-divider.cash{ background: var(--sage-light); }
+
+/* Breakdown blocks should not draw their own top borders (divider handles it) */
+.rate-breakdown, .pay-breakdown, .cash-breakdown { border-top: none; }
+
+
+  /* Rate detail stack — mirrors pay-breakdown exactly: same border-top, padding-top, gap, font-size */
+  .rate-breakdown { padding-top: 22px; display: flex; flex-direction: column; gap: 6px; }
+  .rb-row { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; }
+  .rb-label { color: var(--ink-mid); }
+  .rb-val { font-weight: 600; color: var(--ink-mid); font-variant-numeric: tabular-nums; display: inline-flex; align-items: baseline; gap: 2px; }
+
+  .pay-breakdown { padding-top: 22px; display: flex; flex-direction: column; gap: 6px; }
+  .pb-row { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; }
+  .pb-label { color: var(--ink-mid); }
+  .pb-amt { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; display: inline-flex; align-items: baseline; justify-content: flex-end; gap: 2px; }
+  .pb-amt.muted { color: var(--ink-light); font-weight: 400; }
+
+  .cash-breakdown { padding-top: 22px; display: flex; flex-direction: column; gap: 6px; }
+  .cb-row { display: flex; justify-content: space-between; align-items: center; font-size: 10.5px; color: var(--ink-mid); }
+  .cb-amt { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .cb-amt.deduct { color: var(--ink-mid); }
+
+  /* Arrow connectors removed */
+  .sh-card.rate-card::after,
+  .sh-card.pay-card::after { content: ''; display: none; }
+
+/* ── SNAPSHOT ── */
+  .snapshot{
+  padding: 8px var(--page-rail); display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--rule); flex-shrink: 0; }
+  .snap-item { text-align: center; padding: 7px 8px; border-right: 1px solid var(--rule); }
+  .snap-item:last-child { border-right: none; }
+  .snap-label { font-size: 8.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 3px; }
+  .snap-value { font-size: 12.5px; font-weight: 600; color: var(--ink); display: flex; align-items: center; justify-content: center; }
+
+  /* ── COST SECTION ── */
+  .cost-section{
+  padding: 8px var(--page-rail) 8px; flex: 1; display: flex; flex-direction: column; gap: 12px; }
+  .cost-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cost-card { border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--paper); }
+  .cost-card-head { background: var(--paper-mid); padding: 7px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--rule); }
+  .cch-title { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); }
+  .cch-total { font-size: 11.5px; font-weight: 700; color: var(--ink); }
+  .cost-sub-head { font-size: 8px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-light); padding: 6px 14px 3px; }
+  .cost-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 14px; font-size: 11px; border-bottom: 1px solid var(--paper-mid); color: var(--ink-mid); }
+  .cost-row:last-of-type { border-bottom: none; }
+  .cr-amt { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; display: inline-flex; align-items: baseline; justify-content: flex-end; white-space: nowrap; gap: 2px; }
+  .cr-dollar { font-weight: 600; color: var(--ink); line-height: 1; flex-shrink: 0; }
+
+  /* Total rows — matches cost-card-head fill; removed dark charcoal */
+  .cost-grand { display: flex; justify-content: space-between; padding: 7px 14px; font-size: 11.5px; font-weight: 700; color: var(--ink-mid); background: var(--paper-mid); border-top: 1px solid var(--rule); }
+
+  /* ── SUMMARY CARD ── */
+  /* Legacy summary styles (kept for compatibility) */
+  .summary-card { border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--paper); display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .summary-col { display: flex; flex-direction: column; }
+  .summary-col + .summary-col { border-left: 1px solid var(--rule); }
+  .summary-col-head { background: var(--paper-mid); padding: 7px 14px; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-mid); border-bottom: 1px solid var(--rule); }
+  .summary-line { display: flex; justify-content: space-between; padding: 6px 14px; font-size: 11.5px; color: var(--ink-mid); border-bottom: 1px solid var(--paper-mid); }
+  .sl-amt { font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+  /* Total Closing Costs — de-emphasized */
+  .summary-total-v2 {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    min-height: 62px;
+    background: var(--paper-mid);
+    border-top: 1px solid var(--rule);
+  }
+  .summary-total-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+  }
+  .summary-total-amt {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-mid);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  /* Cash to You — emphasized: sage border, large Lora serif, full color */
+  .cash-total {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    min-height: 62px;
+    background: var(--sage-pale);
+    border-top: 2px solid var(--sage);
+  }
+  .cash-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.11em; text-transform: uppercase; color: var(--sage); }
+  .cash-amount { font-family: 'Lora', serif; font-size: 28px; font-weight: 500; color: var(--sage); letter-spacing: -0.02em; }
+
+  /* ── SPLIT SUMMARY CARDS (match cost-card rhythm) ── */
+  .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .summary-grid .cost-card { display: flex; flex-direction: column; }
+  .summary-grid .cost-row { font-size: 11.5px; }
+  .summary-grid .cr-amt { font-size: 11.5px; }
+
+  /* ── DISCLAIMER ── */
+  .disclaimer { padding: 6px 32px 10px; flex-shrink: 0; }
+  .disclaimer p { font-size: 8.5px; color: var(--ink-light); line-height: 1.65; font-style: italic; }
+
+  /* ── FOOTER ── */
+  .page-footer { background: var(--paper-mid); border-top: 1px solid var(--rule); padding: 14px 32px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .fa-name { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 1px; line-height: 1.1; }
+  .fa-title { font-size: 9.5px; color: var(--ink-light); letter-spacing: 0.03em; }
+  .footer-phone-pill { display: flex; align-items: center; gap: 8px; background: var(--terra-pale); border: 1.5px solid var(--terra); padding: 9px 20px; border-radius: 40px; }
+  .fpp-icon { font-size: 14px; }
+  .fpp-number { font-size: 15px; font-weight: 700; color: var(--terra); letter-spacing: 0.02em; }
+  .fpp-cta { font-size: 9px; color: var(--terra); opacity: 0.7; font-style: italic; }
+
+  /* ── EDITABLE INPUTS ── */
+  .ei {
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px dashed rgba(150,140,120,.25);
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    cursor: text;
+    padding: 0;
+    transition: background .15s ease, box-shadow .15s ease, border-bottom-color .15s ease;
+  }
+  .ei:hover { background: rgba(0,0,0,.03); }
+  .ei:focus { border-bottom-color: var(--terra); background: rgba(181,98,42,.06); border-radius: 1px 1px 0 0; box-shadow: 0 0 0 2px rgba(181,98,42,.14); }
+
+  .ei-name    { text-align: right; }
+  .ei-rate    { font-family: 'Lora', serif; font-size: 48px; font-weight: 500; color: var(--amber); letter-spacing: -0.03em; width: 5ch; line-height: 1; text-align: left; border-bottom: none;  line-height: 1; display: inline-block; vertical-align: baseline;; padding:0; margin:0; border:0; outline:none; background:transparent; appearance:none; -webkit-appearance:none; height:1em; }
+  .ei-rate:hover { background: rgba(155, 107, 26, 0.05); }
+  .ei-rate:focus { border-bottom: 1.5px dashed var(--terra); }
+  .ei-term    { width: 22px; text-align: center; font-size: 10.5px; color: var(--ink-mid); font-weight: 600; }
+  .ei-loanamt { font-size: 10.5px; color: var(--ink-mid); width: 8ch; text-align: right; font-weight: 600; }
+  .ei-mo      { font-size: 10.5px; font-weight: 600; color: var(--ink); width: auto; text-align: right; }
+  .ei-pval    { font-size: 12.5px; font-weight: 600; color: var(--ink); width: 8ch; text-align: right; }
+  .ei-amt     { text-align: right; width: 7ch; font-size: 11px; font-weight: 600; color: var(--ink); padding: 0; }
+  .ei-sm      { width: 2ch; text-align: right; }
+  .ei-payoff  { text-align: right; width: 8ch; font-size: 11.5px; color: var(--ink-mid); font-weight: 600; }
+  select.ei   { cursor: pointer; font-size: 9.5px; color: var(--ink-light); padding-right: 0; background: transparent; }
+  select.ei option { color: var(--ink); background: #fff; }
+
+  /* Loan type dropdown: centered text + minimal side padding */
+  #loanType {
+  text-align: right;
+  text-align-last: right;
+  padding: 0;
+  margin: 0;
+  width: auto;              /* JS sets exact px width based on selected option */
+  max-width: 220px;         /* never exceed client-name width */
+  height: 18px;
+  line-height: 1.1;
+}
+  .cr-amt .ei { border-bottom-color: rgba(150,140,120,.18); }
+
+  /* Discount Points / Lender Credit toggle */
+  .ei.no-underline{ border-bottom:none; }
+  .ei.no-underline:hover{ background: transparent; }
+  .ei.no-underline:focus{ box-shadow:none; background: transparent; }
+  .dp-sign{ margin-right:4px; font-weight:700; color: var(--ink-mid); }
+  /* Lender credit emphasis (screen only; prints normally) */
+  .cost-row.credit{
+    background: rgba(61, 122, 94, 0.08);
+    position: relative;
+  }
+  .cost-row.credit::before{
+    content:"";
+    position:absolute;
+    left:0; top:0; bottom:0;
+    width:3px;
+    background: var(--sage);
+  }
+  .cost-row.credit .cr-amt,
+  .cost-row.credit .cr-dollar{
+    color: var(--sage) !important;
+  }
+  .cost-row.credit .ei{
+    color: var(--sage) !important;
+    font-weight: 700;
+  }
+  .dp-hint{
+    margin-left: 6px;
+    font-size: 10px;
+    color: var(--sage);
+    font-style: italic;
+    white-space: nowrap;
+  }
+
+  @media print{
+    .cost-row.credit{ background: rgba(61, 122, 94, 0.08) !important; }
+    .cost-row.credit::before{ display:block !important; background: var(--sage) !important; }
+    .cost-row.credit .cr-amt,
+    .cost-row.credit .cr-dollar,
+    .cost-row.credit .ei{ color: var(--sage) !important; font-weight: 700 !important; }
+    .dp-hint{ display:none !important; }
+  }
+
+  /* ── VALUE PAIRS ── */
+  .value-pair { display: inline-flex; align-items: baseline; gap: 0; line-height: 1; white-space: nowrap; }
+  .value-pair .prefix { margin-right: 2px; }
+  .value-pair .suffix { margin-left: 2px; }
+  .value-pair.tight .prefix { margin-right: 0; }
+  .value-pair.tight .suffix { margin-left: 0; }
+
+  #pmiWrap.muted { color: var(--ink-light); font-weight: 400; }
+  #pmiWrap.muted #pmiDollar { display: none; }
+  #pmiWrap.muted input { color: var(--ink-light); font-weight: 400; }
+
+  @media print {
+  @page { size: Letter; margin: 0; }
+
+  html, body { margin: 0; padding: 0; height: auto; }
+  body {
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .print-bar { display: none !important; }
+
+  /* Remove interactive chrome for PDF */
+  input, select, textarea {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    color: inherit !important;
+    font: inherit !important;
+  }
+  select { background-image: none !important; }
+  ::placeholder { color: transparent !important; }
+  *:focus, *:hover { box-shadow: none !important; }
+
+  /* Force each .page to map 1:1 to a Letter sheet */
+  .page {
+    width: 816px !important;   /* 8.5in @ 96dpi */
+    height: 1056px !important; /* 11in  @ 96dpi */
+    max-width: none !important;
+    margin: 0 auto !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: hidden !important;
+    page-break-after: always;
+    break-after: page;
+  }
+  .page:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  /* Keep rows/cards from splitting across pages */
+  .page, .page * {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Match horizontal gutters across both pages */
+  .content, .section, .footer{
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+
+  /* Ensure Page 2 topbar aligns to content rails in print */
+  .p2 .topbar{ padding-left: 0 !important; padding-right: 0 !important; }
+
+  .ei { border-bottom: none !important; background: transparent !important; }
+}
+
+
+/* Prevent accidental selector collision with page-2 by scoping its CSS */
+
+.p2 *, .p2 *::before, .p2 *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.p2 {
+    --paper:#FDFAF6; --paper-mid:#F5F0E8;
+    --rule:#DDD7CC; --ink:#2C3340; --ink-mid:#5C6470; --ink-light:#9AA0AA;
+    --terra:#B5622A; --terra-pale:#FBF0E8;
+    --sage:#3D7A5E; --sage-pale:#EBF5EF; --sage-light:#C8E6D5;
+    --amber:#9B6B1A; --amber-pale:#FDF4E0; --amber-light:#F0D899;
+  }.p2 html { font-size:13px; }.p2 body {
+    font-family:'Mulish',sans-serif;
+    background:#EDE8DF;
+    color:var(--ink);
+    padding:24px 20px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }.p2 .page {
+    max-width:720px;
+    margin:0 auto;
+    background:var(--paper);
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 4px 32px rgba(44,51,64,0.13),0 1px 4px rgba(44,51,64,0.07);
+    display:flex;
+    flex-direction:column;
+  }.p2 .page-header {
+    padding:8px 32px 6px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--rule);
+  }.p2 .brand-logo {height:26px;}.p2 .header-right {
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    text-align:right;
+  }.p2 .hr-for {
+    font-size:9px;
+    letter-spacing:.11em;
+    text-transform:uppercase;
+    color:var(--ink-light);
+    margin-bottom:4px;
+  }.p2 .ei-name {
+    font-size:15px;
+    font-weight:700;
+    color:var(--ink);
+  }.p2 .hr-date {
+    font-size:9.5px;
+    color:var(--ink-light);
+    margin-top:4px;
+  }.p2 .content {
+    padding:14px 32px 10px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    flex:1;
+  }.p2 .topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--rule);
+  }.p2 .title h1 {
+    font-weight:700;
+    font-size:18px;
+    line-height:1.15;
+  }.p2 .subtitle {
+    font-size:10.5px;
+    color:var(--ink-mid);
+    margin-top:4px;
+  }.p2 .legend {
+    display:flex;
+    gap:6px;
+  }.p2 .pill {
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    border:1px solid var(--rule);
+    background:var(--paper-mid);
+    color:var(--ink-mid);
+  }.p2 .pill.opt {background:var(--amber-pale);border-color:var(--amber-light);color:var(--amber);}.p2 .pill.time {background:var(--sage-pale);border-color:var(--sage-light);color:var(--sage);}.p2 .grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap: 12px;
+  }.p2 .card {
+    border:1px solid var(--rule);
+    border-radius:6px;
+    overflow:hidden;
+  }.p2 .card-head {
+    background:var(--paper-mid);
+    padding:7px 14px;
+    border-bottom:1px solid var(--rule);
+  }.p2 .card-title {
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-mid);
+  }.p2 .rows {padding:6px 0;}.p2 .row {
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:10px;
+    padding:10px 14px;
+    border-bottom:1px solid var(--paper-mid);
+  }.p2 .row:last-child {border-bottom:none;}.p2 .fee-name {
+    font-size:11px;
+    font-weight:700;
+  }.p2 .fee-desc {
+    font-size:10px;
+    color:var(--ink-mid);
+    margin-top:3px;
+    line-height:1.35;
+  }.p2 .tag {
+    align-self:start;
+    padding:4px 8px;
+    border-radius:999px;
+    font-size:8px;
+    font-weight:800;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    border:1px solid var(--rule);
+    background:var(--paper-mid);
+    color:var(--ink-mid);
+  }.p2 .tag.opt {background:var(--amber-pale);border-color:var(--amber-light);color:var(--amber);}.p2 .tag.time {background:var(--sage-pale);border-color:var(--sage-light);color:var(--sage);}.p2 .timing-details {
+    border:1px solid var(--rule);
+    border-radius:6px;
+    background:var(--paper-mid);
+    padding:10px 14px;
+  }.p2 .timing-title {
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-mid);
+    margin-bottom:6px;
+  }.p2 .timing-text {
+    font-size:10px;
+    color:var(--ink-mid);
+    line-height:1.45;
+    margin-bottom:6px;
+  }.p2 .bottom-callout {
+    border:1px solid var(--rule);
+    border-radius:6px;
+    background:var(--paper-mid);
+    padding:10px 14px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }.p2 .callout-title {
+    font-size:9px;
+    font-weight:800;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin-bottom:4px;
+    color:var(--ink-mid);
+  }.p2 .callout-text {
+    font-size:10px;
+    color:var(--ink-mid);
+    line-height:1.4;
+  }.p2 .page-footer {
+    background:var(--paper-mid);
+    border-top:1px solid var(--rule);
+    padding:14px 32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }.p2 .fa-name {font-weight:700;font-size:13px;}.p2 .fa-title {font-size:9.5px;color:var(--ink-light);}
+
+  /* ── HIDDEN ADVISOR SETTINGS (no layout impact) ── */
+  .advisor-settings{
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    width: 280px;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    box-shadow: 0 10px 40px rgba(44,51,64,0.18), 0 2px 8px rgba(44,51,64,0.10);
+    padding: 12px;
+    z-index: 9999;
+    display: none; /* toggled via keyboard */
+  }
+  .advisor-settings.open{ display:block; }
+  .as-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+  .as-title{ font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
+  .as-hint{ font-size: 10px; color: var(--ink-light); }
+  .as-row{ display:flex; flex-direction:column; gap:4px; margin-bottom:8px; }
+  .as-label{ font-size: 9px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-light); }
+  .as-input{
+    width: 100%;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: 'Mulish', sans-serif;
+    font-size: 12px;
+    color: var(--ink);
+    background: #fff;
+    outline: none;
+  }
+  .as-input:focus{
+    border-color: var(--terra);
+    box-shadow: 0 0 0 3px rgba(181,98,42,.12);
+  }
+  .as-actions{ display:flex; justify-content:flex-end; gap:8px; margin-top:6px; }
+  .as-btn{
+    border: 1px solid var(--rule);
+    background: var(--paper-mid);
+    color: var(--ink-mid);
+    padding: 7px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .as-btn.primary{
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  @media print{
+    .advisor-settings{ display:none !important; }
+  }
+
+
+/* =========================
+   UI POLISH PATCH (spacing/alignment only)
+   - does NOT change calculations, logic, or displayed copy
+   ========================= */
+
+/* Single source of truth for left/right gutters */
+:root{ --page-gutter: 32px; }
+
+/* Ensure every major page-1 section shares identical left/right padding */
+.page-header,
+.snapshot,
+.cost-section,
+.disclaimer,
+.page-footer{
+  padding-left: var(--page-gutter) !important;
+  padding-right: var(--page-gutter) !important;
+}
+
+/* Prevent hero headings from breaking (e.g., MONTHLY PAYMENT) */
+.sh-eyebrow{ white-space: nowrap; }
+
+/* Cost table: consistent row height + baseline rhythm */
+.cost-row{
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+  min-height: 28px;
+  line-height: 1.25;
+}
+
+/* Keep label and amount baselines stable */
+.cost-row > span:first-child{ line-height: 1.25; }
+.cr-amt{ line-height: 1.1; }
+
+/* Align $ into a clean column */
+.cr-dollar{
+  width: 1ch;
+  display: inline-block;
+  text-align: right;
+}
+
+/* Parenthetical month/day formatting: visually enforce a space before suffix */
+.value-pair.tight .suffix::before{ content: " "; }
+
+/* Summary blocks: tighten repeated totals without changing content */
+.summary-total-v2,
+.cash-total{
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+}
+
+/* “How we arrive…” header: make the empty right side feel intentional */
+.summary-grid .cost-card:nth-child(2) .cost-card-head .cch-total{ color: transparent; position: relative; }
+.summary-grid .cost-card:nth-child(2) .cost-card-head .cch-total::after{ content:"—"; color: var(--ink-light); position:absolute; right:0; top:50%; transform:translateY(-50%); }
+
+/* ---- Page 2 rhythm ---- */
+.p2 .content{ gap: 10px !important; }
+
+/* Keep tag heights consistent and aligned */
+.p2 .tag{
+  line-height: 1;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+/* Slightly tighter rows for page 2 list cards */
+.p2 .row{
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+}
+
+/* Timing / callout sections: consistent separation */
+.p2 .timing-details{ margin-top: 2px; }
+.p2 .bottom-callout{ margin-top: 2px; }
+
+
+/* Force hero band to align with page gutters (prevents hero being wider than body content) */
+.summary-hero{
+  padding-left: var(--page-gutter);
+  padding-right: var(--page-gutter);
+}
+
+/* Full-bleed hero background (keeps hero content gutter-aligned) */
+  .summary-hero { position: relative; }
+  .summary-hero::before{
+    content:"";
+    position:absolute;
+    top:0; bottom:0;
+    left: calc(-1 * var(--page-gutter));
+    right: calc(-1 * var(--page-gutter));
+    background: linear-gradient(to right,
+      var(--amber-pale) 0%,
+      var(--amber-pale) 33.333%,
+      var(--paper-mid) 33.333%,
+      var(--paper-mid) 66.666%,
+      var(--sage-pale) 66.666%,
+      var(--sage-pale) 100%);
+    z-index: 0;
+  }
+  .summary-hero > *{ position: relative; z-index: 1; }
+
+
+/* =========================
+   FINTECH MICRO-POLISH (visual only)
+   - softer dividers
+   - consistent numeric alignment
+   ========================= */
+:root{
+  --rule-soft: rgba(44,51,64,0.10);
+  --rule-softer: rgba(44,51,64,0.06);
+  --ink-strong: #1A1A1A;
+}
+
+/* Softer dividers across the entire document */
+.page,
+.cost-card,
+.summary-card,
+.p2 .card,
+.p2 .timing-details,
+.p2 .bottom-callout{
+  border-color: var(--rule-soft) !important;
+}
+
+.page-header,
+.snapshot,
+.cost-card-head,
+.page-footer,
+.p2 .page-header,
+.p2 .topbar,
+.p2 .card-head,
+.p2 .page-footer{
+  border-color: var(--rule-soft) !important;
+}
+
+.cost-row,
+.p2 .row,
+.summary-line{
+  border-bottom-color: var(--rule-softer) !important;
+}
+
+/* Stronger numeric emphasis, lighter labels (keeps your palette) */
+.cr-amt,
+.pb-amt,
+.cb-amt,
+.cch-total,
+.summary-total-amt,
+.cash-amount{
+  font-variant-numeric: tabular-nums;
+}
+
+.cr-amt,
+.pb-amt:not(.muted),
+.cb-amt:not(.deduct),
+.cch-total,
+.summary-total-amt{
+  color: var(--ink-strong);
+}
+
+/* Keep muted/secondary amounts muted */
+.pb-amt.muted,
+.cb-amt.deduct{
+  color: var(--ink-mid) !important;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="doc">
+
+
+<div class="print-bar">
+  <button class="print-btn" onclick="window.print()">⬇ Save as PDF</button>
+</div>
+
+<!-- Hidden Advisor Settings (Ctrl+Shift+L to toggle) -->
+<div id="advisorSettings" class="advisor-settings" aria-hidden="true">
+  <div class="as-head">
+    <div class="as-title">Advisor Info</div>
+    <div class="as-hint">Ctrl+Shift+L</div>
+  </div>
+  <div class="as-row">
+    <label class="as-label">Name</label>
+    <input class="as-input" id="advisorNameInput" value="" autocomplete="off">
+  </div>
+  <div class="as-row">
+    <label class="as-label">Title</label>
+    <input class="as-input" id="advisorTitleInput" value="" autocomplete="off">
+  </div>
+  <div class="as-row">
+    <label class="as-label">NMLS</label>
+    <input class="as-input" id="advisorNmlsInput" value="" inputmode="numeric" autocomplete="off">
+  </div>
+  <div class="as-row">
+    <label class="as-label">Phone</label>
+    <input class="as-input" id="advisorPhoneInput" value="" autocomplete="off">
+  </div>
+  <div class="as-actions">
+    <button type="button" class="as-btn" id="advisorResetBtn">Reset</button>
+    <button type="button" class="as-btn primary" id="advisorCloseBtn">Close</button>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="brand">
+  <img 
+    src="https://loanpronto.com/wp-content/themes/loanpronto-theme/dist/img/svg/icons/full_logo.svg"
+    alt="Loan Pronto"
+    class="brand-logo"
+  />
+</div>
+    <div class="header-right">
+      <div class="hr-for">Prepared for</div>
+      <div class="hr-name">
+        <input class="ei ei-name" id="clientName" value="" oninput="recalc()" style="width:220px;">
+      </div>
+      <div class="hr-date">
+        <span id="headerDate"></span>
+         · 
+        <select class="ei" id="loanType" onchange="recalc()">
+          <option selected>FHA Purchase</option>
+          <option>VA Purchase</option>
+          <option>Conventional Purchase</option>
+        </select>
+        <select class="ei" id="vaUseToggle" onchange="recalc()" style="display:none; margin-left:6px;">
+          <option value="first">1st Use</option>
+          <option value="subsequent">Subsequent</option>
+          <option value="exempt">Exempt</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY HERO -->
+  <div class="summary-hero">
+
+    <!-- 1. RATE — rebuilt to match pay/cash structure exactly -->
+    <div class="sh-card rate-card">
+      <div class="sh-eyebrow rate">Your Interest Rate</div>
+      <div class="sh-number rate">
+        <input class="ei ei-rate autosize" id="interestRate" value="5.500" oninput="recalc()">
+        <span class="rate-pct">%</span>
+      </div>
+      <div class="sh-divider rate"></div>
+      <div class="rate-breakdown">
+        <div class="rb-row">
+          <span class="rb-label">Loan Term</span>
+          <span class="rb-val"><input class="ei ei-term" id="termYears" value="30" oninput="recalc()"> yr fixed</span>
+        </div>
+        <div class="rb-row">
+          <span class="rb-label">Loan Amount</span>
+          <span class="rb-val">$<input class="ei ei-loanamt autosize" id="loanAmtHero" value="470,600" onblur="evalAmtSync(this,'loanAmount')" oninput="mirrorValue(this,\'loanAmount\')"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. MONTHLY PAYMENT -->
+    <div class="sh-card pay-card">
+      <div class="sh-eyebrow pay">Monthly Payment</div>
+      <div class="sh-number pay" id="heroMonthly">$3,288</div>
+      <div class="sh-divider pay"></div>
+      <div class="pay-breakdown">
+        <div class="pb-row">
+          <span class="pb-label">Principal &amp; Interest</span>
+          <span class="pb-amt" id="heroPi">$2,672</span>
+        </div>
+        <div class="pb-row">
+          <span class="pb-label">Property Taxes</span>
+          <span class="pb-amt cr-amt"><span class="cr-dollar">$</span><input class="ei ei-mo autosize" id="monthlyTaxes" value="466" oninput="recalc()"></span>
+        </div>
+        <div class="pb-row">
+          <span class="pb-label">Homeowner's Insurance</span>
+          <span class="pb-amt cr-amt"><span class="cr-dollar">$</span><input class="ei ei-mo autosize" id="monthlyIns" value="150" oninput="recalc()"></span>
+        </div>
+        <div class="pb-row">
+          <span class="pb-label">Mortgage Insurance</span>
+          <span class="pb-amt" id="pmiWrap">
+            <span id="pmiDollar">$</span><input class="ei ei-mo autosize" id="monthlyPMI" value="None" oninput="recalc()">
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. CASH TO YOU -->
+    <div class="sh-card cash-card">
+      <div class="sh-eyebrow cash">Cash Due at Closing</div>
+      <div class="sh-number cash" id="heroCash">$15,000</div>
+      <div class="sh-divider cash"></div>
+      <div class="cash-breakdown">
+        <div class="cb-row">
+          <span>Purchase price</span>
+          <span class="cb-amt deduct">$<input class="ei ei-loanamt autosize" id="purchasePriceHero" data-sync="purchasePrice" value="436,000" oninput="syncGroup(this,'purchasePrice')" onblur="evalAmtGroup(this,'purchasePrice')" style="text-align:right;"></span>
+        </div>
+        <div class="cb-row">
+          <span>Closing costs</span>
+          <span class="cb-amt deduct">+ $<span id="cbCC">19,600</span></span>
+        </div>
+        <div class="cb-row">
+          <span>Seller credits</span>
+          <span class="cb-amt" id="cbCreditsWrap">− $<input class="ei ei-loanamt autosize" id="sellerCreditsHero" data-sync="sellerCredits" value="0" oninput="syncGroup(this,'sellerCredits')" onblur="evalAmtGroup(this,'sellerCredits')" style="text-align:right;"></span>
+        </div>
+        <div class="cb-row">
+          <span>Loan amount</span>
+          <span class="cb-amt" id="cbLoanAmt">− $470,600</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LOAN SNAPSHOT -->
+  <div class="snapshot">
+    <div class="snap-item">
+      <div class="snap-label">Loan Amount</div>
+      <div class="snap-value"><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-pval autosize" id="loanAmount" value="470,600" onblur="evalAmtSync(this,'loanAmtHero')" oninput="mirrorValue(this,\'loanAmtHero\')"></span></div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-label">Purchase Price</div>
+      <div class="snap-value"><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-pval autosize" id="propValue" value="700,000" data-sync="purchasePrice" oninput="syncGroup(this,'purchasePrice')" onblur="evalAmtGroup(this,'purchasePrice')"></span></div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-label">Loan-to-Value</div>
+      <div class="snap-value" id="ltvDisplay">67.2%</div>
+    </div>
+    <div class="snap-item">
+      <div class="snap-label">Credit Score</div>
+      <div class="snap-value"><input class="ei" id="creditScore" value="759" style="width:56px;font-size:12.5px;font-weight:600;color:var(--ink);text-align:center;"></div>
+    </div>
+  </div>
+
+  <!-- COST DETAIL -->
+  <div class="cost-section">
+    <div class="cost-grid">
+
+      <!-- LOAN COSTS -->
+      <div class="cost-card">
+        <div class="cost-card-head">
+          <span class="cch-title">Loan Costs</span>
+          <span class="cch-total">$<span id="totalLoanCosts">16,250.00</span></span>
+        </div>
+        <div class="cost-sub-head">A. Origination Charges</div>
+        <div class="cost-row" id="originationLineA"><span><select class="ei no-underline" id="dpMode" onchange="recalc()"><option value="points" selected>Discount Points</option><option value="credit">Lender Credit</option></select><span class="dp-hint" id="dpHint" style="display:none;">applied as a credit</span></span><span class="cr-amt"><span class="dp-sign" id="dpSign"></span><span class="cr-dollar">$</span><input class="ei ei-amt" id="discountPoints" value="0" onblur="evalAmtAbs(this)" oninput="recalc()"></span></div>
+        <div class="cost-row"><span>Admin / Underwriting</span><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-amt" id="adminUnderwriting" value="1,640" onblur="evalAmt(this)" oninput="recalc()"></span></div>
+        <div class="cost-sub-head">B. Services You Cannot Shop For</div>
+        <div class="cost-row"><span>Appraisal</span><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-amt" id="appraisal" value="600" onblur="evalAmt(this)" oninput="recalc()"></span></div>
+        <div class="cost-row"><span>Credit Report</span><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-amt" id="creditReport" value="220" onblur="evalAmt(this)" oninput="recalc()"></span></div>
+        <div class="cost-row"><span>Flood Cert / Tax / MERS</span><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-amt" id="miscFees" value="125" onblur="evalAmt(this)" oninput="recalc()"></span></div>
+        <div class="cost-sub-head">C. Services You Can Shop For</div>
+        <div class="cost-row"><span>Title &amp; Settlement</span><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-amt" id="titleFees" value="2,170" onblur="evalAmt(this)" oninput="recalc()"></span></div>
+        <div class="cost-grand"><span>Total Loan Costs</span><span>$<span id="grandLoanCosts">16,250.00</span></span></div>
+      </div>
+
+      <!-- OTHER COSTS -->
+      <div class="cost-card">
+        <div class="cost-card-head">
+          <span class="cch-title">Other Costs</span>
+          <span class="cch-total">$<span id="totalOtherCosts">3,349.94</span></span>
+        </div>
+        <div class="cost-sub-head">E. Taxes &amp; Government Fees</div>
+        <div class="cost-row"><span>Recording / Transfer Tax</span><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-amt" id="recordingFee" value="64" onblur="evalAmt(this)" oninput="recalc()"></span></div>
+        <div class="cost-sub-head">F. Prepaids</div>
+        <div class="cost-row"><span>Prepaid Interest (<input class="ei ei-sm" id="prepaidDays" value="20" oninput="recalc()"> days)</span><span class="cr-amt" id="prepaidInterestAmt">$1,437.94</span></div>
+        <div class="cost-row"><span>Property Taxes</span><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-amt" id="prepaidTaxes" value="0" onblur="evalAmt(this)" oninput="recalc()"></span></div>
+        <div class="cost-row"><span>Homeowner's Insurance</span><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-amt" id="prepaidIns" value="0" onblur="evalAmt(this)" oninput="recalc()"></span></div>
+        <div class="cost-sub-head">G. Initial Escrow at Closing</div>
+        <div class="cost-row"><span>Property Taxes (<span class="value-pair tight"><input class="ei ei-sm" id="taxEscrowMonths" value="3" oninput="recalc()"><span class="suffix">months</span></span>)</span><span class="cr-amt" id="taxEscrowAmt">$1,398.00</span></div>
+        <div class="cost-row"><span>Homeowner's Insurance (<span class="value-pair tight"><input class="ei ei-sm" id="insEscrowMonths" value="3" oninput="recalc()"><span class="suffix">months</span></span>)</span><span class="cr-amt" id="insEscrowAmt">$450.00</span></div>
+        <div class="cost-grand"><span>Total Other Costs</span><span>$<span id="grandOtherCosts">3,349.94</span></span></div>
+      </div>
+
+    </div>
+
+    <!-- SPLIT SUMMARY CARDS (match top spacing/alignment) -->
+    <div class="summary-grid">
+
+      <!-- TOTAL CLOSING COSTS -->
+      <div class="cost-card">
+        <div class="cost-card-head">
+          <span class="cch-title">Total Closing Costs</span>
+          <span class="cch-total">$<span id="sumTotalCC">19,599.94</span></span>
+        </div>
+        <div class="cost-row"><span>Total Loan Costs</span><span class="cr-amt">$<span id="sumLoanCosts">16,250.00</span></span></div>
+        <div class="cost-row"><span>Total Other Costs</span><span class="cr-amt">$<span id="sumOtherCosts">3,349.94</span></span></div>
+        <div class="cost-row" id="fundingFeeRow" style="display:none;"><span id="fundingFeeLabel">VA Funding Fee</span><span class="cr-amt">$<span id="fundingFeeAmt">0.00</span></span></div>
+        <div class="summary-total-v2">
+          <div class="summary-total-label">Total Closing Costs</div>
+          <div class="summary-total-amt">$<span id="sumTotalCCMirror">19,599.94</span></div>
+        </div>
+      </div>
+
+      <!-- HOW WE ARRIVE -->
+      <div class="cost-card">
+        <div class="cost-card-head">
+          <span class="cch-title">How We Arrive at Cash Due</span>
+          <span class="cch-total">&nbsp;</span>
+        </div>
+        <div class="cost-row"><span>Purchase Price</span><span class="cr-amt"><span class="cr-dollar">$</span><input class="ei ei-payoff autosize" id="payoff" value="436,000" data-sync="purchasePrice" oninput="syncGroup(this,'purchasePrice')" onblur="evalAmtGroup(this,'purchasePrice')"></span></div>
+        <div class="cost-row"><span>Loan Amount</span><span class="cr-amt">-$<span id="ctcLoanAmt">470,600.00</span></span></div>
+        <div class="cost-row"><span>Total Closing Costs</span><span class="cr-amt">+$<span id="ctcCC">19,599.94</span></span></div>
+        <div class="cost-row"><span>Seller Credits</span><span class="cr-amt">-$<input class="ei ei-payoff autosize" id="sellerCredits" data-sync="sellerCredits" value="0" oninput="syncGroup(this,'sellerCredits')" onblur="evalAmtGroup(this,'sellerCredits')"></span></div>
+        <div class="cash-total">
+          <div class="cash-label">Cash Due at Closing</div>
+          <div class="cash-amount" id="ctcCash">$15,000.06</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <p>The loan scenario is based on your inquiry into a loan with Loan Pronto, Inc. The information provided is an estimate of the charges that you might incur at the settlement of your loan. The fees listed are estimates and the actual charges at the time of settlement might be more or less. This is not a Good Faith Estimate. A Good Faith Estimate of Closing Costs will be provided within (3) business days of full loan application.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-footer">
+    <div class="footer-advisor">
+      <div class="fa-name"><span id="advisorNameDisplay">Harry Carwile</span></div>
+      <div class="fa-title"><span id="advisorTitleDisplay">Senior Mortgage Consultant</span>  ·  NMLS# <span id="advisorNmlsDisplay">2134940</span>  ·  Loan Pronto</div>
+    </div>
+    <div class="footer-phone-pill">
+      <span class="fpp-icon">📞</span>
+      <div>
+        <div class="fpp-number"><span id="advisorPhoneDisplay">(704) 307-4482</span></div>
+        <div class="fpp-cta">Call or text anytime</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function autosizeInput(el, min=3, max=14){
+    if(!el) return;
+    const v = (el.value ?? '').toString();
+    const len = Math.min(Math.max(v.length, min), max);
+    el.style.width = (len + 0.5) + 'ch';
+  }
+  function autosizeAll(){
+    document.querySelectorAll('input.autosize').forEach(el => autosizeInput(el));
+  }
+  document.addEventListener('input', (e) => {
+    const t = e.target;
+    if(t && t.classList && t.classList.contains('autosize')) autosizeInput(t);
+  });
+  window.addEventListener('load', autosizeAll);
+
+function fitLoanTypeWidth(){
+  const sel = document.getElementById('loanType');
+  if(!sel) return;
+
+  // Measure selected option text using a hidden span with the same computed font
+  const optText = sel.options[sel.selectedIndex]?.text || sel.value || '';
+  const cs = window.getComputedStyle(sel);
+
+  const meas = document.createElement('span');
+  meas.style.position = 'absolute';
+  meas.style.visibility = 'hidden';
+  meas.style.whiteSpace = 'nowrap';
+  meas.style.fontFamily = cs.fontFamily;
+  meas.style.fontSize = cs.fontSize;
+  meas.style.fontWeight = cs.fontWeight;
+  meas.style.letterSpacing = cs.letterSpacing;
+  meas.textContent = optText;
+
+  document.body.appendChild(meas);
+  const textW = meas.getBoundingClientRect().width;
+  document.body.removeChild(meas);
+
+  // Extra space for dropdown caret + a tiny buffer
+  const caretW = 18;   // conservative for Chrome caret area
+  const padW = 6;      // minimal breathing room
+  const target = Math.ceil(textW + caretW + padW);
+
+  // Clamp to the client-name width so right edge can align cleanly
+  const maxW = 220;
+  const finalW = Math.min(target, maxW);
+
+  sel.style.width = finalW + 'px';
+}
+
+
+const MOS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+document.getElementById('headerDate').textContent = MOS[new Date().getMonth()] + ' ' + new Date().getDate() + ', ' + new Date().getFullYear();
+
+function evalExpr(str) {
+  // Supports inputs like "700", "700.25", "200+500", or "=200+500"
+  let clean = String(str).replace(/[$,\s]/g, '');
+  if (!clean) return 0;
+  if (clean[0] === '=') clean = clean.slice(1);
+
+  // Safety: only allow digits, decimal, + - * / ( ) .
+  // If anything else is present, fall back to parseFloat.
+  if (!/^[0-9+\-*/().]+$/.test(clean)) {
+    return parseFloat(clean) || 0;
+  }
+
+  try {
+    const r = Function('"use strict";return(' + clean + ')')();
+    return isFinite(r) ? r : 0;
+  } catch (e) {
+    return parseFloat(clean) || 0;
+  }
+}
+function fmt(v) {
+  const r = Math.round(v * 100) / 100;
+  return r === Math.floor(r)
+    ? Math.round(r).toLocaleString('en-US')
+    : r.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function fmtFull(v) { return v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function g(id) { return evalExpr(document.getElementById(id).value); }
+function set(id, val) { document.getElementById(id).textContent = val; }
+function evalAmt(el) { el.value = fmt(evalExpr(el.value)); recalc(); }
+function evalAmtAbs(el){ el.value = fmt(Math.abs(evalExpr(el.value))); recalc(); }
+function getDiscountSigned(){
+  const mode = document.getElementById("dpMode")?.value || "points";
+  const amt = Math.abs(g("discountPoints"));
+  const signEl = document.getElementById("dpSign");
+  const row = document.getElementById("originationLineA");
+  const hint = document.getElementById("dpHint");
+
+  if(signEl) signEl.textContent = (mode === "credit" && amt > 0) ? "−" : "";
+  if(row) row.classList.toggle("credit", mode === "credit");
+  if(hint) hint.style.display = (mode === "credit" && amt > 0) ? "inline" : "none";
+
+  return mode === "credit" ? -amt : amt;
+}
+function mirrorValue(el, mirrorId) { document.getElementById(mirrorId).value = el.value; recalc(); }
+
+function evalAmtSync(el, mirrorId) { el.value = fmt(evalExpr(el.value)); document.getElementById(mirrorId).value = el.value; recalc(); }
+
+
+function syncGroup(el, group){
+  const val = el.value;
+  document.querySelectorAll('[data-sync="' + group + '"]').forEach(other => {
+    if(other !== el) other.value = val;
+  });
+  recalc();
+}
+
+function evalAmtGroup(el, group){
+  el.value = fmt(evalExpr(el.value));
+  document.querySelectorAll('[data-sync="' + group + '"]').forEach(other => {
+    if(other !== el) other.value = el.value;
+  });
+  recalc();
+}
+
+function initPmiPlaceholder(){
+  const el = document.getElementById('monthlyPMI');
+  if(!el) return;
+
+  // Track whether PMI was entered by the user vs auto-filled for FHA
+  el.addEventListener('input', () => {
+    el.dataset.pmiSource = 'manual';
+  });
+
+  el.addEventListener('focus', () => {
+    if(el.value.trim().toLowerCase() === 'none') el.value = '';
+  });
+
+  el.addEventListener('blur', () => {
+    if(el.value.trim() === '') {
+      el.value = 'None';
+      // Treat an intentional blank as a manual choice (so we don't re-populate unless FHA)
+      el.dataset.pmiSource = 'manual';
+    }
+    recalc();
+  });
+}
+
+function recalc() {
+    autosizeAll();
+  const loanAmt = g('loanAmount');
+  const propVal  = g('propValue');
+  const rate     = g('interestRate') / 100;
+  const termYrs  = g('termYears');
+  const taxMo    = g('monthlyTaxes');
+  const insMo    = g('monthlyIns');
+
+  // ── LOAN TYPE DETECTION ──
+  fitLoanTypeWidth();
+  const loanTypeVal = document.getElementById('loanType').value;
+  const isVA  = loanTypeVal.startsWith('VA');
+  const isFHA = loanTypeVal.startsWith('FHA');
+
+  // ── VA TOGGLE VISIBILITY ──
+  const vaToggle = document.getElementById('vaUseToggle');
+  vaToggle.style.display = isVA ? '' : 'none';
+
+  // ── FUNDING FEE / UFMIP (shown in summary box, financed in — not a cash cost) ──
+  const ffRow   = document.getElementById('fundingFeeRow');
+  const ffLabel = document.getElementById('fundingFeeLabel');
+  let fundingFee = 0;
+
+  if (isVA) {
+    const vaUse = vaToggle.value;
+    if (vaUse === 'exempt') {
+      ffRow.style.display = 'none';
+      fundingFee = 0;
+    } else {
+      ffRow.style.display = '';
+      const ltv = propVal > 0 ? (loanAmt / propVal) * 100 : 100;
+      const downPct = 100 - ltv; // down payment as % of purchase price
+      let ffRate;
+      if (vaUse === 'subsequent') {
+        // After first use: <5% → 3.3%, 5–9.99% → 1.5%, 10%+ → 1.25%
+        if (downPct >= 10)     ffRate = 0.0125;
+        else if (downPct >= 5) ffRate = 0.015;
+        else                   ffRate = 0.033;
+      } else {
+        // First use: <5% → 2.15%, 5–9.99% → 1.5%, 10%+ → 1.25%
+        if (downPct >= 10)     ffRate = 0.0125;
+        else if (downPct >= 5) ffRate = 0.015;
+        else                   ffRate = 0.0215;
+      }
+      fundingFee = loanAmt * ffRate;
+      ffLabel.textContent = 'VA Funding Fee';
+    }
+  } else if (isFHA) {
+    ffRow.style.display = '';
+    fundingFee = loanAmt * 0.0175;
+    ffLabel.textContent = 'FHA Upfront MI Premium';
+  } else {
+    ffRow.style.display = 'none';
+    fundingFee = 0;
+  }
+  set('fundingFeeAmt', fmtFull(fundingFee));
+
+  // ── FHA ANNUAL MIP AUTO-CALC ──
+  // Uses base loan amount (before UFMIP), LTV, and term per HUD chart (endorsed on/after 03/20/2023)
+  const pmiEl  = document.getElementById('monthlyPMI');
+  const pmiWrap = document.getElementById('pmiWrap');
+
+  if (isFHA) {
+    const ltv      = propVal > 0 ? (loanAmt / propVal) * 100 : 0;
+    const fhaLimit = 726200;
+    let annualMipBps = 0;
+
+    if (termYrs > 15) {
+      if (loanAmt <= fhaLimit) {
+        annualMipBps = ltv > 95 ? 55 : 50;
+      } else {
+        annualMipBps = ltv > 95 ? 75 : 70;
+      }
+    } else {
+      // 15 yr or less
+      if (loanAmt <= fhaLimit) {
+        annualMipBps = ltv > 90 ? 40 : 15;
+      } else {
+        if (ltv > 90)      annualMipBps = 65;
+        else if (ltv > 78) annualMipBps = 40;
+        else               annualMipBps = 15;
+      }
+    }
+
+    const monthlyMip = (loanAmt * (annualMipBps / 10000)) / 12;
+    
+    // Always round UP to the nearest whole dollar for FHA monthly MI
+    const monthlyMipRounded = Math.ceil(monthlyMip);
+    pmiEl.value = fmt(monthlyMipRounded);
+    pmiEl.dataset.pmiSource = 'auto-fha';
+if (pmiWrap) pmiWrap.classList.remove('muted');
+    document.getElementById('pmiDollar').style.display = '';
+
+  } else {
+    // If PMI was auto-filled for FHA and the loan is no longer FHA, clear it.
+    if (pmiEl && pmiEl.dataset && pmiEl.dataset.pmiSource === 'auto-fha') {
+      pmiEl.value = 'None';
+      pmiEl.dataset.pmiSource = 'cleared';
+    }
+    if (pmiWrap) pmiWrap.classList.toggle('muted', true);
+    const pmiDollarEl2 = document.getElementById('pmiDollar');
+    if (pmiDollarEl2) pmiDollarEl2.style.display = 'none';
+  }
+
+  const pmiRaw = pmiEl.value.trim().toLowerCase();
+  // Show $ only when there's a numeric PMI amount
+  const pmiDollarEl = document.getElementById('pmiDollar');
+  if (pmiDollarEl) {
+    const isNoneLike = (pmiRaw === 'none' || pmiRaw === '');
+    pmiDollarEl.style.display = isNoneLike ? 'none' : '';
+  }
+  const pmiMo  = (pmiRaw === 'none' || pmiRaw === '') ? 0 : evalExpr(pmiRaw);
+
+  if (pmiWrap && !isFHA) {
+    const isNone = (pmiRaw === 'none' || pmiRaw === '');
+    pmiWrap.classList.toggle('muted', isNone);
+  }
+
+  document.getElementById('loanAmtHero').value = fmt(loanAmt);
+  set('ltvDisplay', propVal > 0 ? ((loanAmt / propVal) * 100).toFixed(1) + '%' : '—');
+
+  let pi = 0;
+  if (rate > 0 && termYrs > 0) {
+    const r = rate / 12, n = termYrs * 12;
+    pi = loanAmt * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  } else if (termYrs > 0) { pi = loanAmt / (termYrs * 12); }
+  set('heroPi', '$' + fmt(Math.round(pi)));
+
+  const prepaidInt = (loanAmt * rate / 365) * g('prepaidDays');
+  set('prepaidInterestAmt', '$' + fmtFull(prepaidInt));
+
+  const taxEscrow = taxMo * g('taxEscrowMonths');
+  const insEscrow = insMo * g('insEscrowMonths');
+  set('taxEscrowAmt', '$' + fmtFull(taxEscrow));
+  set('insEscrowAmt', '$' + fmtFull(insEscrow));
+
+  // Loan costs do NOT include funding fee (it's financed, shown separately in summary)
+  const totalLC = getDiscountSigned() + g('adminUnderwriting') + g('appraisal') + g('creditReport') + g('miscFees') + g('titleFees');
+  set('totalLoanCosts', fmtFull(totalLC));
+  set('grandLoanCosts', fmtFull(totalLC));
+
+  const totalOC = g('recordingFee') + prepaidInt + g('prepaidTaxes') + g('prepaidIns') + taxEscrow + insEscrow;
+  set('totalOtherCosts', fmtFull(totalOC));
+  set('grandOtherCosts', fmtFull(totalOC));
+
+  // Total closing costs includes funding fee (financed in, but still a cost)
+  const totalCC = totalLC + totalOC + fundingFee;
+  set('sumLoanCosts', fmtFull(totalLC));
+  set('sumOtherCosts', fmtFull(totalOC));
+  set('sumTotalCC', fmtFull(totalCC));
+  // Mirror (used inside the de-emphasized footer row)
+  set('sumTotalCCMirror', fmtFull(totalCC));
+
+  const purchasePrice = propVal;
+  const sellerCredits = g('sellerCredits') || 0;
+
+  // Cash due = purchase price + closing costs - loan amount - seller credits
+  const cash = purchasePrice + totalCC - loanAmt - sellerCredits;
+
+  set('ctcLoanAmt', fmtFull(loanAmt));
+  set('ctcCC', fmtFull(totalCC));
+
+  // Cash due: positive = borrower brings money, negative = borrower receives money
+  const cashSign = cash >= 0 ? '' : '-';
+  set('ctcCash', cashSign + '$' + fmtFull(Math.abs(cash)));
+  set('heroCash', cashSign + '$' + fmt(Math.abs(Math.round(cash))));
+
+  // Hero breakdown
+  set('cbCC', fmt(Math.round(totalCC)));
+  // Keep seller credits inputs formatted/synced
+  document.querySelectorAll('[data-sync="sellerCredits"]').forEach(el => {
+    if(el && el.value !== fmt(sellerCredits)) el.value = fmt(sellerCredits);
+  });
+
+  // Loan amount display in hero breakdown
+  const cbLoanEl = document.getElementById('cbLoanAmt');
+  if (cbLoanEl) cbLoanEl.textContent = '− $' + fmt(loanAmt);
+
+  // Seller credits are editable in both places; value sync is handled via data-sync group.
+
+  set('heroMonthly', '$' + fmt(Math.round(pi + taxMo + insMo + pmiMo)));
+
+  const name = document.getElementById('clientName').value.trim();
+  document.title = name ? 'Loan Estimate – ' + name : 'Loan Estimate – Loan Pronto';
+
+  // Mirror client name onto Page 2 (explainer)
+  const p2NameEl = document.getElementById('p2ClientName');
+  if (p2NameEl) p2NameEl.textContent = name || document.getElementById('clientName').value || '';
+
+}
+
+recalc();
+
+function applyAdvisorFromInputs(){
+  const n = (document.getElementById('advisorNameInput')?.value || '').trim() || ' ';
+  const t = (document.getElementById('advisorTitleInput')?.value || '').trim();
+  const m = (document.getElementById('advisorNmlsInput')?.value || '').trim();
+  const p = (document.getElementById('advisorPhoneInput')?.value || '').trim();
+
+  const setText = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+
+  setText('advisorNameDisplay', n);
+  setText('advisorTitleDisplay', t);
+  setText('advisorNmlsDisplay', m);
+  setText('advisorPhoneDisplay', p);
+
+  // Page 2 footer mirror
+  setText('p2AdvisorNameDisplay', n);
+  setText('p2AdvisorTitleDisplay', t);
+  setText('p2AdvisorNmlsDisplay', m);
+  setText('p2AdvisorPhoneDisplay', p);
+  setText('p2AdvisorTitleDisplay', t);
+  setText('p2AdvisorNmlsDisplay', m);
+}
+
+function saveAdvisor(){
+  try{
+    const payload = {
+      name: document.getElementById('advisorNameInput')?.value || '',
+      title: document.getElementById('advisorTitleInput')?.value || '',
+      nmls: document.getElementById('advisorNmlsInput')?.value || '',
+      phone: document.getElementById('advisorPhoneInput')?.value || ''
+    };
+    localStorage.setItem('lp_advisor_v1', JSON.stringify(payload));
+  }catch(e){}
+}
+
+function loadAdvisor(){
+  try{
+    const raw = localStorage.getItem('lp_advisor_v1');
+    if(!raw) return;
+    const data = JSON.parse(raw);
+    if(data && typeof data === 'object'){
+      if(document.getElementById('advisorNameInput'))  document.getElementById('advisorNameInput').value  = data.name  ?? document.getElementById('advisorNameInput').value;
+      if(document.getElementById('advisorTitleInput')) document.getElementById('advisorTitleInput').value = data.title ?? document.getElementById('advisorTitleInput').value;
+      if(document.getElementById('advisorNmlsInput'))  document.getElementById('advisorNmlsInput').value  = data.nmls  ?? document.getElementById('advisorNmlsInput').value;
+      if(document.getElementById('advisorPhoneInput')) document.getElementById('advisorPhoneInput').value = data.phone ?? document.getElementById('advisorPhoneInput').value;
+    }
+  }catch(e){}
+}
+
+function wireAdvisorSettings(){
+  const panel = document.getElementById('advisorSettings');
+  if(!panel) return;
+
+  const toggle = (force) => {
+    const open = typeof force === 'boolean' ? force : !panel.classList.contains('open');
+    panel.classList.toggle('open', open);
+    panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+  };
+
+  // Toggle panel: Ctrl+Shift+L
+  document.addEventListener('keydown', (e) => {
+    if(e.ctrlKey && e.shiftKey && (e.key === 'L' || e.key === 'l')){
+      e.preventDefault();
+      toggle();
+    }
+    // Escape closes when open
+    if(e.key === 'Escape' && panel.classList.contains('open')){
+      toggle(false);
+    }
+  });
+
+  // Live update + persist
+  ['advisorNameInput','advisorTitleInput','advisorNmlsInput','advisorPhoneInput'].forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.addEventListener('input', () => {
+      applyAdvisorFromInputs();
+      saveAdvisor();
+    });
+  });
+
+  document.getElementById('advisorCloseBtn')?.addEventListener('click', () => toggle(false));
+  document.getElementById('advisorResetBtn')?.addEventListener('click', () => {
+    try{ localStorage.removeItem('lp_advisor_v1'); }catch(e){}
+    // Reset to file defaults
+    document.getElementById('advisorNameInput').value  = 'Harry Carwile';
+    document.getElementById('advisorTitleInput').value = 'Senior Mortgage Consultant';
+    document.getElementById('advisorNmlsInput').value  = '2134940';
+    document.getElementById('advisorPhoneInput').value = '(704) 307-4482';
+    applyAdvisorFromInputs();
+    saveAdvisor();
+    toggle(false);
+  });
+
+  // Initialize from storage, then apply to UI
+  loadAdvisor();
+  applyAdvisorFromInputs();
+}
+
+document.addEventListener('DOMContentLoaded', () => { initPmiPlaceholder(); fitLoanTypeWidth(); wireAdvisorSettings(); });
+</script>
+
+<div class="p2">
+
+<div class="page">
+
+  <div class="page-header">
+    <img src="https://loanpronto.com/wp-content/themes/loanpronto-theme/dist/img/svg/icons/full_logo.svg" class="brand-logo">
+    <div class="header-right">
+      <div class="hr-for">Prepared for</div>
+      <div class="ei-name"><span id="p2ClientName">Nicole Beasley</span></div>
+      <div class="hr-date">Loan Services Guide</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="topbar">
+      <div class="title">
+        <h1>What Each Item Covers</h1>
+        <div class="subtitle">Quick explanation of each line item on Page 1.</div>
+      </div>
+      <div class="legend">
+        <span class="pill opt">Optional</span>
+        <span class="pill time">Time-Based</span>
+      </div>
+    </div>
+
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Lender &amp; Closing Services</div>
+        </div>
+        <div class="rows">
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Discount Points</div>
+              <div class="fee-desc">Financed amount that decreases interest paid over time</div>
+            </div>
+            <div class="tag opt">Optional</div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Admin / Underwriting</div>
+              <div class="fee-desc">File review to verify income and approve the loan.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Appraisal</div>
+              <div class="fee-desc">Independent home valuation.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Credit Report</div>
+              <div class="fee-desc">Credit pull required for approval.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Flood Cert / Tax / MERS</div>
+              <div class="fee-desc">Compliance and loan registration checks.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Title &amp; Settlement</div>
+              <div class="fee-desc">Title protection and closing services to confirm clear ownership.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">Government &amp; Escrow Items</div>
+        </div>
+        <div class="rows">
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Recording / Transfer Tax</div>
+              <div class="fee-desc">County recording of the new mortgage.</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Prepaid Interest</div>
+              <div class="fee-desc">Interest from closing through the end of that month.</div>
+            </div>
+            <div class="tag time">Time-Based</div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Prepaid Taxes / Insurance</div>
+              <div class="fee-desc">Collected at closing if taxes or insurance are due soon.</div>
+            </div>
+            <div class="tag time">Time-Based</div>
+          </div>
+
+          <div class="row">
+            <div>
+              <div class="fee-name">Initial Escrow Setup</div>
+              <div class="fee-desc">Starting balance for your new escrow account.</div>
+            </div>
+            <div class="tag time">Time-Based</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="timing-details">
+      <div class="timing-title">Timing Details</div>
+      <div class="timing-text">
+        <strong>Prepaid Interest:</strong> This allows you to skip one or sometimes two mortgage payments after closing. Closing earlier in the month increases this amount, while closing later in the month reduces it.
+      </div>
+    </div>
+
+    <div class="bottom-callout">
+      <div>
+        <div class="callout-title">Items That Vary Based on Timing</div>
+        <div class="callout-text">
+          Prepaid interest and escrow amounts vary based on your closing date and when local tax and insurance bills are due. These are estimates — your final figures will be confirmed once a closing date is set.
+        </div>
+      </div>
+      <div>
+        <div class="callout-title">Items That Are Set Before Closing</div>
+        <div class="callout-text">
+          Most lender and third-party services are set and disclosed before closing.
+          Final amounts are confirmed before signing.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    <div class="footer-advisor">
+      <div class="fa-name"><span id="p2AdvisorNameDisplay">Harry Carwile</span></div>
+      <div class="fa-title"><span id="p2AdvisorTitleDisplay">Senior Mortgage Consultant</span>  ·  NMLS# <span id="p2AdvisorNmlsDisplay">2134940</span>  ·  Loan Pronto</div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+</div>
+
+
+<script>
+const STORAGE_KEY = "lp_estimator_shared_v1";
+
+function loadAdvisor() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+
+  try {
+    const data = JSON.parse(raw);
+
+    document.querySelectorAll("[data-lo='name']").forEach(el => el.textContent = data.name || "");
+    document.querySelectorAll("[data-lo='title']").forEach(el => el.textContent = data.title || "");
+    document.querySelectorAll("[data-lo='nmls']").forEach(el => el.textContent = data.nmls || "");
+    document.querySelectorAll("[data-lo='phone']").forEach(el => el.textContent = data.phone || "");
+
+    if (document.getElementById("advisorNameInput")) {
+      document.getElementById("advisorNameInput").value = data.name || "";
+      document.getElementById("advisorTitleInput").value = data.title || "";
+      document.getElementById("advisorNmlsInput").value = data.nmls || "";
+      document.getElementById("advisorPhoneInput").value = data.phone || "";
+    }
+  } catch(e) {
+    console.warn("Advisor load error", e);
+  }
+}
+
+function saveAdvisor() {
+  const payload = {
+    name: document.getElementById("advisorNameInput")?.value.trim() || "",
+    title: document.getElementById("advisorTitleInput")?.value.trim() || "",
+    nmls: document.getElementById("advisorNmlsInput")?.value.trim() || "",
+    phone: document.getElementById("advisorPhoneInput")?.value.trim() || ""
+  };
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  loadAdvisor();
+}
+
+window.addEventListener("DOMContentLoaded", loadAdvisor);
+</script>
+
+</body>
+</html>
